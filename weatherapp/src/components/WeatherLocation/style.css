@@ -4,6 +4,7 @@
     padding: 15px;
     font-family: 'Roboto' sans-serif;
     box-shadow: 10px 10px 42px 5px rgba(0,0,0,0.75);
+    border-radius: 5px;
 }
 
 .locationCont{

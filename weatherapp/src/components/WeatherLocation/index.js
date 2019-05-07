@@ -1,27 +1,12 @@
 import React, { Component } from 'react';
 import Location from './Location';
 import WeatherData from './WeatherData';
-import { CLOUD, 
-    CLOUDY,
-    RAIN,
-    SUN,
-    SNOW,
-    WINDY } from './../../constants/weathers';
 import './style.css';
+import transformWeather from './../../services/transformWeather';
 
-const data1 ={
-    temperature: 20,
-    weatherState: CLOUDY,
-    humidity: 80,
-    wind: '10 m/s',
-}
-
-const data2 ={
-    temperature: 30,
-    weatherState: SUN,
-    humidity: 10,
-    wind: '5 m/s',
-}
+const location = "Buenos Aires,ar";
+const api_key = "f99bbd9e4959b513e9bd0d7f7356b38d";
+const api_weather = `http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${api_key}`;
 
 class WeatherLocation extends Component {
 
@@ -29,15 +14,24 @@ class WeatherLocation extends Component {
         super();
         this.state = {
             city: "Buenos Aires",
-            data: data1,
+            data: null,
         }
     }
 
     handleUpdateClick = () => {
-        this.setState({
-            data: data2,
+        fetch(api_weather).then(data => {
+            return data.json();
+        }).then(weather_data => {
+            const data = transformWeather(weather_data);
+            this.setState({data})
         });
     }
+
+    
+    componentWillMount() {
+        this.handleUpdateClick();
+    }
+    
 
     render = () => {
         const { city, data } = this.state; 
@@ -45,8 +39,7 @@ class WeatherLocation extends Component {
         return(
             <div className='weatherLocationCont'>
                 <Location city={city} />
-                <WeatherData data={data}/>
-                <button onClick={this.handleUpdateClick}>Actualizar</button>
+                {data ? <WeatherData data={data}/> : 'Cargando...'}
             </div>
         );
     };
