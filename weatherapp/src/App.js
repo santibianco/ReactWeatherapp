@@ -1,12 +1,16 @@
 import React from 'react';
-import WeatherLocation from './components/WeatherLocation';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import LocationList from './components/LocationList';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <WeatherLocation></WeatherLocation>
-    </div>
+    <MuiThemeProvider>
+      <div className="App">
+        <LocationList/>
+      </div>
+    </MuiThemeProvider>
+    
   );
 }
 
