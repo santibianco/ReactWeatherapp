@@ -4,6 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper'
 import AppBar from 'material-ui/AppBar'
 import LocationList from './components/LocationList';
+import ForecastExtended from './components/ForecastExtended';
 import './App.css';
 
 const cities = [
@@ -15,11 +16,19 @@ const cities = [
 
 class App extends Component {
 
+  constructor() {
+    super();
+    this.state = {
+      city: null,
+    }
+  }
+
   handleSelectedLocation = city => {
-    console.log(`handleSelectedLocation ${city}`);
+    this.setState({ city });
   }
 
   render() {
+    const { city } = this.state;
     return (
       <MuiThemeProvider>
         <Grid>
@@ -37,7 +46,11 @@ class App extends Component {
             </Col>
             <Col xs={12} md={6}>
               <Paper zDepth={4}>
-                <div className='detail'></div>
+                <div className='detail'>
+                  { city &&
+                    <ForecastExtended city={city}/>
+                  }
+                </div>
               </Paper>
             </Col>
           </Row>
